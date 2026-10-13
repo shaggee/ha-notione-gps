@@ -46,6 +46,15 @@
       },
       "charging": {
         "name": "Ładowanie"
+      },
+      "lost_mode": {
+        "name": "Tryb zgubiony"
+      },
+      "subscription_active": {
+        "name": "Abonament aktywny"
+      },
+      "etoll": {
+        "name": "e-TOLL"
       }
     },
     "sensor": {
@@ -78,6 +87,21 @@
       },
       "last_button": {
         "name": "Ostatnie wciśnięcie przycisku"
+      },
+      "last_paired": {
+        "name": "Ostatnie połączenie"
+      },
+      "imei": {
+        "name": "IMEI"
+      },
+      "subscription": {
+        "name": "Abonament"
+      },
+      "subscription_end": {
+        "name": "Koniec abonamentu"
+      },
+      "refresh_interval": {
+        "name": "Interwał odświeżania serwera"
       }
     },
     "device_tracker": {

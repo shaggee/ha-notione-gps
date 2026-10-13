@@ -46,6 +46,15 @@
       },
       "charging": {
         "name": "Charging"
+      },
+      "lost_mode": {
+        "name": "Lost mode"
+      },
+      "subscription_active": {
+        "name": "Subscription active"
+      },
+      "etoll": {
+        "name": "e-TOLL"
       }
     },
     "sensor": {
@@ -78,6 +87,21 @@
       },
       "last_button": {
         "name": "Last button press"
+      },
+      "last_paired": {
+        "name": "Last connection"
+      },
+      "imei": {
+        "name": "IMEI"
+      },
+      "subscription": {
+        "name": "Subscription"
+      },
+      "subscription_end": {
+        "name": "Subscription end"
+      },
+      "refresh_interval": {
+        "name": "Server refresh interval"
       }
     },
     "device_tracker": {
