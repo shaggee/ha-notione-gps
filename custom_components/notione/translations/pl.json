@@ -1,0 +1,89 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "notiOne GPS",
+        "description": "Zaloguj się kontem notiOne.",
+        "data": {
+          "email": "E-mail",
+          "password": "Hasło"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Ponowne logowanie",
+        "description": "Hasło przestało działać. Podaj aktualne.",
+        "data": {
+          "password": "Hasło"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Nieprawidłowy e-mail lub hasło",
+      "cannot_connect": "Brak połączenia z notiOne"
+    },
+    "abort": {
+      "already_configured": "To konto jest już skonfigurowane",
+      "reauth_successful": "Ponowne logowanie udane"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opcje",
+        "data": {
+          "scan_interval": "Częstotliwość odpytywania (s)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "motion": {
+        "name": "Ruch"
+      },
+      "online": {
+        "name": "Online"
+      },
+      "charging": {
+        "name": "Ładowanie"
+      }
+    },
+    "sensor": {
+      "accelerometer": {
+        "name": "Akcelerometr"
+      },
+      "battery": {
+        "name": "Bateria"
+      },
+      "temperature": {
+        "name": "Temperatura"
+      },
+      "humidity": {
+        "name": "Wilgotność"
+      },
+      "speed": {
+        "name": "Prędkość"
+      },
+      "last_report": {
+        "name": "Ostatni raport"
+      },
+      "place": {
+        "name": "Miejsce"
+      },
+      "orientation": {
+        "name": "Orientacja"
+      },
+      "gps_snr": {
+        "name": "GPS SNR"
+      },
+      "last_button": {
+        "name": "Ostatnie wciśnięcie przycisku"
+      }
+    },
+    "device_tracker": {
+      "location": {
+        "name": "Lokalizacja"
+      }
+    }
+  }
+}
