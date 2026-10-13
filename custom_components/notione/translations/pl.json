@@ -101,12 +101,45 @@
         "name": "Koniec abonamentu"
       },
       "refresh_interval": {
-        "name": "Interwał odświeżania serwera"
+        "name": "Interwał odświeżania"
       }
     },
     "device_tracker": {
       "location": {
         "name": "Lokalizacja"
+      }
+    },
+    "select": {
+      "move_interval": {
+        "name": "Interwał raportowania w ruchu"
+      },
+      "stationary_interval": {
+        "name": "Interwał raportowania w bezruchu"
+      }
+    },
+    "switch": {
+      "theft_alarm": {
+        "name": "Alarm antykradzieżowy"
+      },
+      "theft_alarm_sound": {
+        "name": "Dźwięk alarmu"
+      },
+      "speed_alarm": {
+        "name": "Alarm prędkości"
+      },
+      "battery_saving": {
+        "name": "Oszczędzanie baterii"
+      },
+      "allow_disable": {
+        "name": "Wyłączanie przyciskiem"
+      }
+    },
+    "number": {
+      "speed_alarm_threshold": {
+        "name": "Próg alarmu prędkości"
+      },
+      "battery_saving_threshold": {
+        "name": "Próg oszczędzania baterii"
       }
     }
   }

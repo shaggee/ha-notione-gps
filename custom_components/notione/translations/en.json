@@ -101,12 +101,45 @@
         "name": "Subscription end"
       },
       "refresh_interval": {
-        "name": "Server refresh interval"
+        "name": "Refresh interval"
       }
     },
     "device_tracker": {
       "location": {
         "name": "Location"
+      }
+    },
+    "select": {
+      "move_interval": {
+        "name": "Report interval when moving"
+      },
+      "stationary_interval": {
+        "name": "Report interval when stationary"
+      }
+    },
+    "switch": {
+      "theft_alarm": {
+        "name": "Theft alarm"
+      },
+      "theft_alarm_sound": {
+        "name": "Theft alarm sound"
+      },
+      "speed_alarm": {
+        "name": "Speed alarm"
+      },
+      "battery_saving": {
+        "name": "Battery saving"
+      },
+      "allow_disable": {
+        "name": "Allow turning off with button"
+      }
+    },
+    "number": {
+      "speed_alarm_threshold": {
+        "name": "Speed alarm threshold"
+      },
+      "battery_saving_threshold": {
+        "name": "Battery saving threshold"
       }
     }
   }
