@@ -115,6 +115,12 @@
       },
       "stationary_interval": {
         "name": "Interwał raportowania w bezruchu"
+      },
+      "theft_alarm_mode": {
+        "name": "Powiadomienie alarmu, gdy",
+        "state": {
+          "movement": "Urządzenie wykryje ruch"
+        }
       }
     },
     "switch": {
@@ -122,7 +128,7 @@
         "name": "Alarm antykradzieżowy"
       },
       "theft_alarm_sound": {
-        "name": "Dźwięk alarmu"
+        "name": "Alarm dźwiękowy na telefonie"
       },
       "speed_alarm": {
         "name": "Alarm prędkości"
@@ -132,6 +138,9 @@
       },
       "allow_disable": {
         "name": "Wyłączanie przyciskiem"
+      },
+      "theft_alarm_whole_day": {
+        "name": "Alarm całą dobę"
       }
     },
     "number": {
@@ -140,6 +149,14 @@
       },
       "battery_saving_threshold": {
         "name": "Próg oszczędzania baterii"
+      }
+    },
+    "time": {
+      "theft_alarm_begin": {
+        "name": "Początek alarmu"
+      },
+      "theft_alarm_end": {
+        "name": "Koniec alarmu"
       }
     }
   }
