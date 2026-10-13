@@ -1,0 +1,13 @@
+{
+  "domain": "notione",
+  "name": "notiOne GPS",
+  "codeowners": ["@shaggee"],
+  "config_flow": true,
+  "documentation": "https://github.com/shaggee/ha-notione-gps",
+  "integration_type": "hub",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/shaggee/ha-notione-gps/issues",
+  "loggers": ["custom_components.notione"],
+  "requirements": [],
+  "version": "0.1.0"
+}
