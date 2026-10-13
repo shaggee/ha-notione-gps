@@ -2,6 +2,18 @@
 
 All notable changes to this project. 🇵🇱 Polska wersja pod każdą wersją angielską.
 
+## [0.1.7] – 2026-10-13
+
+**EN**
+
+### Changed
+- CI: HACS validation now runs with all checks enabled (required for the HACS default repository list)
+
+**PL**
+
+### Zmieniono
+- CI: walidacja HACS uruchamiana ze wszystkimi testami (wymagane do domyślnej listy HACS)
+
 ## [0.1.6] – 2026-10-13
 
 **EN**
@@ -146,6 +158,7 @@ Pierwsze publiczne wydanie nieoficjalnej integracji notiOne GPS dla Home Assista
 - Zdarzenie `notione_accelerometer_changed` przy każdej zmianie stanu akcelerometru
 - Tłumaczenia angielskie i polskie
 
+[0.1.7]: https://github.com/shaggee/ha-notione-gps/releases/tag/v0.1.7
 [0.1.6]: https://github.com/shaggee/ha-notione-gps/releases/tag/v0.1.6
 [0.1.5]: https://github.com/shaggee/ha-notione-gps/releases/tag/v0.1.5
 [0.1.4]: https://github.com/shaggee/ha-notione-gps/releases/tag/v0.1.4
