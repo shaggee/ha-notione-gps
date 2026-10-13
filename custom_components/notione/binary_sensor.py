@@ -20,7 +20,10 @@ async def async_setup_entry(
     c = entry.runtime_data
     entities = []
     for did in c.data:
-        entities += [Motion(c, did), Online(c, did), Charging(c, did)]
+        entities += [
+            Motion(c, did), Online(c, did), Charging(c, did),
+            LostMode(c, did), SubscriptionActive(c, did), Etoll(c, did),
+        ]
     async_add_entities(entities)
 
 
@@ -64,3 +67,59 @@ class Charging(NotiOneEntity, BinarySensorEntity):
     @property
     def is_on(self) -> bool | None:
         return self.gps.get("akuCharging")
+
+
+class LostMode(NotiOneEntity, BinarySensorEntity):
+    """Device reported as lost/stolen in the notiOne app ("wanted")."""
+
+    _attr_icon = "mdi:alert-octagon"
+
+    def __init__(self, c, did):
+        super().__init__(c, did, "lost_mode")
+
+    @property
+    def is_on(self) -> bool | None:
+        wanted = self.device.get("wanted")
+        return None if wanted is None else bool(wanted)
+
+    @property
+    def extra_state_attributes(self):
+        return {"found_message": self.device.get("foundMessage")}
+
+
+class SubscriptionActive(NotiOneEntity, BinarySensorEntity):
+    _attr_icon = "mdi:card-account-details"
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
+
+    def __init__(self, c, did):
+        super().__init__(c, did, "subscription_active")
+
+    @property
+    def is_on(self) -> bool | None:
+        sub = self.device.get("subscription")
+        if not sub:
+            return None
+        return bool(sub.get("status")) and not sub.get("expired")
+
+
+class Etoll(NotiOneEntity, BinarySensorEntity):
+    _attr_icon = "mdi:highway"
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
+
+    def __init__(self, c, did):
+        super().__init__(c, did, "etoll")
+
+    @property
+    def is_on(self) -> bool | None:
+        value = _etoll_field(self.device, "etollEnabled")
+        return None if value is None else bool(value)
+
+    @property
+    def extra_state_attributes(self):
+        return {"service_status": _etoll_field(self.device, "etollServiceStatus")}
+
+
+def _etoll_field(device: dict, key: str):
+    """e-TOLL fields live in the subscription object; fall back to the device."""
+    sub = device.get("subscription") or {}
+    return sub[key] if key in sub else device.get(key)

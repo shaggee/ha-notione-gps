@@ -17,6 +17,7 @@ from homeassistant.const import (
     EntityCategory,
     UnitOfSpeed,
     UnitOfTemperature,
+    UnitOfTime,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -30,62 +31,93 @@ def _ms(v: Any) -> datetime | None:
     return datetime.fromtimestamp(v / 1000, tz=timezone.utc) if v else None
 
 
+def _iso(v: Any) -> datetime | None:
+    return dt_util.parse_datetime(v) if v else None
+
+
+def _sub(d: dict) -> dict:
+    return d.get("subscription") or {}
+
+
 @dataclass(frozen=True, kw_only=True)
 class NotiOneSensorDescription(SensorEntityDescription):
-    value_fn: Callable[[dict, dict], Any]  # (position, gpsDetails)
+    value_fn: Callable[[dict, dict, dict], Any]  # (position, gpsDetails, device)
 
 
 SENSORS: tuple[NotiOneSensorDescription, ...] = (
     NotiOneSensorDescription(
         key="accelerometer", icon="mdi:vibrate",
-        value_fn=lambda p, g: p.get("accelerometerStatusEnum"),
+        value_fn=lambda p, g, d: p.get("accelerometerStatusEnum"),
     ),
     NotiOneSensorDescription(
         key="battery", device_class=SensorDeviceClass.BATTERY,
         native_unit_of_measurement=PERCENTAGE, state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda p, g: g.get("battery"),
+        value_fn=lambda p, g, d: g.get("battery"),
     ),
     NotiOneSensorDescription(
         key="temperature", device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda p, g: p.get("temperature"),
+        value_fn=lambda p, g, d: p.get("temperature"),
     ),
     NotiOneSensorDescription(
         key="humidity", device_class=SensorDeviceClass.HUMIDITY,
         native_unit_of_measurement=PERCENTAGE, state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda p, g: p.get("humidity"),
+        value_fn=lambda p, g, d: p.get("humidity"),
     ),
     NotiOneSensorDescription(
         key="speed", device_class=SensorDeviceClass.SPEED,
         native_unit_of_measurement=UnitOfSpeed.KILOMETERS_PER_HOUR,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda p, g: p.get("speed"),
+        value_fn=lambda p, g, d: p.get("speed"),
     ),
     NotiOneSensorDescription(
         key="last_report", device_class=SensorDeviceClass.TIMESTAMP,
-        value_fn=lambda p, g: _ms(p.get("gpstime")),
+        value_fn=lambda p, g, d: _ms(p.get("gpstime")),
     ),
     NotiOneSensorDescription(
         key="place", icon="mdi:map-marker",
-        value_fn=lambda p, g: ", ".join(
+        value_fn=lambda p, g, d: ", ".join(
             x for x in (p.get("geocodePlace"), p.get("geocodeCity")) if x
         ) or None,
     ),
     NotiOneSensorDescription(
         key="orientation", icon="mdi:axis-arrow", entity_category=EntityCategory.DIAGNOSTIC,
-        value_fn=lambda p, g: p.get("gpsOrientationEnum"),
+        value_fn=lambda p, g, d: p.get("gpsOrientationEnum"),
     ),
     NotiOneSensorDescription(
         key="gps_snr", icon="mdi:satellite-variant", entity_category=EntityCategory.DIAGNOSTIC,
         state_class=SensorStateClass.MEASUREMENT, entity_registry_enabled_default=False,
-        value_fn=lambda p, g: p.get("gpsSnr"),
+        value_fn=lambda p, g, d: p.get("gpsSnr"),
     ),
     NotiOneSensorDescription(
         key="last_button", device_class=SensorDeviceClass.TIMESTAMP,
         entity_category=EntityCategory.DIAGNOSTIC,
-        value_fn=lambda p, g: dt_util.parse_datetime(g["lastButtonPressTime"])
-        if g.get("lastButtonPressTime") else None,
+        value_fn=lambda p, g, d: _iso(g.get("lastButtonPressTime")),
+    ),
+    NotiOneSensorDescription(
+        key="last_paired", device_class=SensorDeviceClass.TIMESTAMP,
+        value_fn=lambda p, g, d: _iso(d.get("lastPairedTime")),
+    ),
+    NotiOneSensorDescription(
+        key="imei", icon="mdi:sim", entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda p, g, d: str(g["imei"]) if g.get("imei") else None,
+    ),
+    NotiOneSensorDescription(
+        key="subscription", icon="mdi:card-account-details",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda p, g, d: _sub(d).get("subscriptionType"),
+    ),
+    NotiOneSensorDescription(
+        key="subscription_end", device_class=SensorDeviceClass.TIMESTAMP,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda p, g, d: _iso(_sub(d).get("endDate")),
+    ),
+    NotiOneSensorDescription(
+        key="refresh_interval", device_class=SensorDeviceClass.DURATION,
+        native_unit_of_measurement=UnitOfTime.SECONDS,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda p, g, d: d.get("refreshIntervalSeconds"),
     ),
 )
 
@@ -106,4 +138,4 @@ class NotiOneSensor(NotiOneEntity, SensorEntity):
 
     @property
     def native_value(self):
-        return self.entity_description.value_fn(self.position, self.gps)
+        return self.entity_description.value_fn(self.position, self.gps, self.device)

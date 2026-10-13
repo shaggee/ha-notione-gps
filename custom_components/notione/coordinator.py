@@ -31,6 +31,7 @@ class NotiOneCoordinator(DataUpdateCoordinator[dict[int, dict[str, Any]]]):
         )
         self.api = api
         self._last_accel: dict[int, str | None] = {}
+        self._configured_interval = entry.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
 
     async def _async_update_data(self) -> dict[int, dict[str, Any]]:
         try:
@@ -50,4 +51,11 @@ class NotiOneCoordinator(DataUpdateCoordinator[dict[int, dict[str, Any]]]):
                      "from": self._last_accel[did], "to": accel},
                 )
             self._last_accel[did] = accel
+
+        # Never poll more often than the server's own refresh interval.
+        server = max((int(d.get("refreshIntervalSeconds") or 0) for d in devices.values()), default=0)
+        interval = timedelta(seconds=max(self._configured_interval, server))
+        if interval != self.update_interval:
+            _LOGGER.debug("Polling interval set to %s", interval)
+            self.update_interval = interval
         return devices
