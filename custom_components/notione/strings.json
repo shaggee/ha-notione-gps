@@ -115,6 +115,12 @@
       },
       "stationary_interval": {
         "name": "Report interval when stationary"
+      },
+      "theft_alarm_mode": {
+        "name": "Theft alarm trigger",
+        "state": {
+          "movement": "Device detects movement"
+        }
       }
     },
     "switch": {
@@ -122,7 +128,7 @@
         "name": "Theft alarm"
       },
       "theft_alarm_sound": {
-        "name": "Theft alarm sound"
+        "name": "Alarm sound on phone"
       },
       "speed_alarm": {
         "name": "Speed alarm"
@@ -132,6 +138,9 @@
       },
       "allow_disable": {
         "name": "Allow turning off with button"
+      },
+      "theft_alarm_whole_day": {
+        "name": "Theft alarm all day"
       }
     },
     "number": {
@@ -140,6 +149,14 @@
       },
       "battery_saving_threshold": {
         "name": "Battery saving threshold"
+      }
+    },
+    "time": {
+      "theft_alarm_begin": {
+        "name": "Theft alarm start"
+      },
+      "theft_alarm_end": {
+        "name": "Theft alarm end"
       }
     }
   }

@@ -34,6 +34,8 @@ async def async_setup_entry(
                 IntervalSelect(c, did, "move_interval", "movePositionInterval"),
                 IntervalSelect(c, did, "stationary_interval", "stationaryPositionInterval"),
             ]
+            if "theftAlarmMode" in c.configs[did]:
+                entities.append(TheftAlarmModeSelect(c, did))
     async_add_entities(entities)
 
 
@@ -67,3 +69,40 @@ class IntervalSelect(NotiOneEntity, SelectEntity):
     async def async_select_option(self, option: str) -> None:
         value = {_label(v): v for v in self._values()}[option]
         await self.coordinator.async_set_config(self.device_id, **{self._field: value})
+
+
+# Known API values of theftAlarmMode. Any other value returned by the server is
+# shown as-is (lower-case) so it can be identified and added here.
+KNOWN_MODES = ("MOVEMENT",)
+
+
+class TheftAlarmModeSelect(NotiOneEntity, SelectEntity):
+    _attr_entity_category = EntityCategory.CONFIG
+    _attr_icon = "mdi:shield-search"
+
+    def __init__(self, c, did) -> None:
+        super().__init__(c, did, "theft_alarm_mode")
+
+    def _modes(self) -> list[str]:
+        modes = list(KNOWN_MODES)
+        current = self.config.get("theftAlarmMode")
+        if isinstance(current, str) and current not in modes:
+            modes.append(current)
+        return modes
+
+    @property
+    def options(self) -> list[str]:
+        return [m.lower() for m in self._modes()]
+
+    @property
+    def current_option(self) -> str | None:
+        current = self.config.get("theftAlarmMode")
+        return current.lower() if isinstance(current, str) else None
+
+    @property
+    def extra_state_attributes(self):
+        return {"api_value": self.config.get("theftAlarmMode")}
+
+    async def async_select_option(self, option: str) -> None:
+        value = {m.lower(): m for m in self._modes()}[option]
+        await self.coordinator.async_set_config(self.device_id, theftAlarmMode=value)

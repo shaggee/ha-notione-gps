@@ -18,6 +18,7 @@ SWITCHES = (
     ("speed_alarm", "speedExceedAlarmEnabled", "mdi:speedometer"),
     ("battery_saving", "batterySavingAlarmEnabled", "mdi:battery-heart-variant"),
     ("allow_disable", "allowDisableDevice", "mdi:power"),
+    ("theft_alarm_whole_day", "theftAlarmWholeDayNotification", "mdi:hours-24"),
 )
 
 

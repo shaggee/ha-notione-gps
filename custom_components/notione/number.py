@@ -11,7 +11,7 @@ from .entity import NotiOneEntity
 
 # (translation key, config field, min, max, step, unit, icon)
 NUMBERS = (
-    ("speed_alarm_threshold", "speedExceedAlarmThreshold", 10, 250, 5,
+    ("speed_alarm_threshold", "speedExceedAlarmThreshold", 40, 140, 10,
      UnitOfSpeed.KILOMETERS_PER_HOUR, "mdi:speedometer"),
     ("battery_saving_threshold", "batterySavingAlarmThreshold", 5, 100, 5,
      PERCENTAGE, "mdi:battery-alert-variant-outline"),
