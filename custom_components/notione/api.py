@@ -12,6 +12,26 @@ from .const import API_URL, AUTH_URL, CLIENT_BASIC
 # report no position or samples through this API, so they are not exposed.
 SKIPPED_DEVICE_TYPES = {"PHONE"}
 
+# Fields the notiOne app sends to POST deviceconfig (full object every time).
+WRITABLE_CONFIG_KEYS = (
+    "allowCollectGpsData",
+    "allowDisableDevice",
+    "batterySavingAlarmEnabled",
+    "batterySavingAlarmMoveInterval",
+    "batterySavingAlarmThreshold",
+    "etollEnabled",
+    "movePositionInterval",
+    "speedExceedAlarmEnabled",
+    "speedExceedAlarmThreshold",
+    "stationaryPositionInterval",
+    "theftAlarmBeginTime",
+    "theftAlarmEndTime",
+    "theftAlarmMode",
+    "theftAlarmSoundEnabled",
+    "theftAlarmStatus",
+    "theftAlarmWholeDayNotification",
+)
+
 HEADERS = {
     "Accept": "application/json, text/plain, */*",
     "Origin": "https://panel.notione.com",
@@ -57,13 +77,20 @@ class NotiOneApi:
         self._token_exp = time.monotonic() + int(data.get("expiresIn", 3600)) - 120
 
     async def _get(self, path: str, **params: Any) -> Any:
+        return await self._request("GET", path, params)
+
+    async def _request(
+        self, method: str, path: str, params: dict[str, Any], json_body: Any = None
+    ) -> Any:
         if not self._token or time.monotonic() > self._token_exp:
             await self.login()
         for attempt in (1, 2):
             try:
-                async with self._session.get(
+                async with self._session.request(
+                    method,
                     f"{API_URL}/{path}",
                     params=params,
+                    json=json_body,
                     headers={**HEADERS, "Authorization": f"Bearer {self._token}"},
                     timeout=aiohttp.ClientTimeout(total=20),
                 ) as resp:
@@ -83,3 +110,13 @@ class NotiOneApi:
             for d in data.get("deviceList", [])
             if d.get("deviceType") not in SKIPPED_DEVICE_TYPES
         }
+
+    async def device_config(self, device_id: int) -> dict[str, Any]:
+        return await self._get("deviceconfig", deviceId=device_id)
+
+    async def set_device_config(self, device_id: int, config: dict[str, Any]) -> None:
+        """Write the full device configuration (the app always sends all fields)."""
+        body = {k: config[k] for k in WRITABLE_CONFIG_KEYS if k in config}
+        result = await self._request("POST", "deviceconfig", {"deviceId": device_id}, body)
+        if result is not True:
+            raise NotiOneApiError(f"Config not accepted: {result!r}")

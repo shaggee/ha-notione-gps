@@ -10,7 +10,14 @@ from .api import NotiOneApi
 from .const import DOMAIN
 from .coordinator import NotiOneConfigEntry, NotiOneCoordinator
 
-PLATFORMS = [Platform.BINARY_SENSOR, Platform.DEVICE_TRACKER, Platform.SENSOR]
+PLATFORMS = [
+    Platform.BINARY_SENSOR,
+    Platform.DEVICE_TRACKER,
+    Platform.NUMBER,
+    Platform.SELECT,
+    Platform.SENSOR,
+    Platform.SWITCH,
+]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: NotiOneConfigEntry) -> bool:

@@ -42,5 +42,9 @@ class NotiOneEntity(CoordinatorEntity[NotiOneCoordinator]):
         return self.device.get("gpsDetails") or {}
 
     @property
+    def config(self) -> dict[str, Any]:
+        return self.coordinator.configs.get(self.device_id, {})
+
+    @property
     def available(self) -> bool:
         return super().available and self.device_id in self.coordinator.data

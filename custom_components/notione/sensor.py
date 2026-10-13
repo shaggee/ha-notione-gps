@@ -36,7 +36,7 @@ def _iso(v: Any) -> datetime | None:
 
 
 def _sub(d: dict) -> dict:
-    return d.get("subscription") or {}
+    return (d.get("gpsDetails") or {}).get("subscription") or d.get("subscription") or {}
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -117,7 +117,7 @@ SENSORS: tuple[NotiOneSensorDescription, ...] = (
         key="refresh_interval", device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=UnitOfTime.SECONDS,
         entity_category=EntityCategory.DIAGNOSTIC,
-        value_fn=lambda p, g, d: d.get("refreshIntervalSeconds"),
+        value_fn=lambda p, g, d: g.get("refreshIntervalSeconds", d.get("refreshIntervalSeconds")),
     ),
 )
 

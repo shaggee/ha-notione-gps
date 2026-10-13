@@ -96,7 +96,7 @@ class SubscriptionActive(NotiOneEntity, BinarySensorEntity):
 
     @property
     def is_on(self) -> bool | None:
-        sub = self.device.get("subscription")
+        sub = (self.device.get("gpsDetails") or {}).get("subscription") or self.device.get("subscription")
         if not sub:
             return None
         return bool(sub.get("status")) and not sub.get("expired")
@@ -120,6 +120,8 @@ class Etoll(NotiOneEntity, BinarySensorEntity):
 
 
 def _etoll_field(device: dict, key: str):
-    """e-TOLL fields live in the subscription object; fall back to the device."""
-    sub = device.get("subscription") or {}
-    return sub[key] if key in sub else device.get(key)
+    """e-TOLL fields live in gpsDetails; fall back to subscription / device."""
+    for source in (device.get("gpsDetails") or {}, device.get("subscription") or {}, device):
+        if key in source:
+            return source[key]
+    return None
