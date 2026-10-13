@@ -119,7 +119,8 @@
       "theft_alarm_mode": {
         "name": "Powiadomienie alarmu, gdy",
         "state": {
-          "movement": "Urządzenie wykryje ruch"
+          "movement": "Urządzenie wykryje ruch",
+          "position": "Urządzenie zmieni lokalizację"
         }
       }
     },

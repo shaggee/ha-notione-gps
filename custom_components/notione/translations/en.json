@@ -119,7 +119,8 @@
       "theft_alarm_mode": {
         "name": "Theft alarm trigger",
         "state": {
-          "movement": "Device detects movement"
+          "movement": "Device detects movement",
+          "position": "Device changes location"
         }
       }
     },
