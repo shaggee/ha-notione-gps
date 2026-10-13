@@ -2,6 +2,20 @@
 
 All notable changes to this project. 🇵🇱 Polska wersja pod każdą wersją angielską.
 
+## [0.1.6] – 2026-10-13
+
+**EN**
+
+### Added
+- **Theft alarm trigger** option *Device changes location* (`POSITION`) – now always available in the list
+- README rewritten in English and Polish with all features, device settings and automation examples
+
+**PL**
+
+### Dodano
+- Opcja **Powiadomienie alarmu, gdy**: *Urządzenie zmieni lokalizację* (`POSITION`) – teraz zawsze dostępna na liście
+- README przepisane po angielsku i po polsku – wszystkie funkcje, ustawienia lokalizatora i przykłady automatyzacji
+
 ## [0.1.5] – 2026-10-13
 
 **EN**
@@ -132,6 +146,7 @@ Pierwsze publiczne wydanie nieoficjalnej integracji notiOne GPS dla Home Assista
 - Zdarzenie `notione_accelerometer_changed` przy każdej zmianie stanu akcelerometru
 - Tłumaczenia angielskie i polskie
 
+[0.1.6]: https://github.com/shaggee/ha-notione-gps/releases/tag/v0.1.6
 [0.1.5]: https://github.com/shaggee/ha-notione-gps/releases/tag/v0.1.5
 [0.1.4]: https://github.com/shaggee/ha-notione-gps/releases/tag/v0.1.4
 [0.1.3]: https://github.com/shaggee/ha-notione-gps/releases/tag/v0.1.3
