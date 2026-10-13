@@ -8,6 +8,10 @@ import aiohttp
 
 from .const import API_URL, AUTH_URL, CLIENT_BASIC
 
+# Phones registered as notiOne beacons (deviceType PHONE / BEACON_PHONE)
+# report no position or samples through this API, so they are not exposed.
+SKIPPED_DEVICE_TYPES = {"PHONE"}
+
 HEADERS = {
     "Accept": "application/json, text/plain, */*",
     "Origin": "https://panel.notione.com",
@@ -74,4 +78,8 @@ class NotiOneApi:
 
     async def devices(self) -> dict[int, dict[str, Any]]:
         data = await self._get("devicelist")
-        return {d["deviceId"]: d for d in data.get("deviceList", [])}
+        return {
+            d["deviceId"]: d
+            for d in data.get("deviceList", [])
+            if d.get("deviceType") not in SKIPPED_DEVICE_TYPES
+        }

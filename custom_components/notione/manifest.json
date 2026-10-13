@@ -9,5 +9,5 @@
   "issue_tracker": "https://github.com/shaggee/ha-notione-gps/issues",
   "loggers": ["custom_components.notione"],
   "requirements": [],
-  "version": "0.1.1"
+  "version": "0.1.2"
 }
