@@ -73,7 +73,7 @@ class IntervalSelect(NotiOneEntity, SelectEntity):
 
 # Known API values of theftAlarmMode. Any other value returned by the server is
 # shown as-is (lower-case) so it can be identified and added here.
-KNOWN_MODES = ("MOVEMENT",)
+KNOWN_MODES = ("MOVEMENT", "POSITION")
 
 
 class TheftAlarmModeSelect(NotiOneEntity, SelectEntity):
